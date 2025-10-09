@@ -1,35 +1,14 @@
 # ========================================================
 # 1️⃣ Gateway principal (Kubernetes Gateway API)
-# ========================================================
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
-metadata:
-  name: gateway-general
-  namespace: istio-system
-spec:
-  gatewayClassName: istio  # Usa el GatewayClass manejado por Istio
-  listeners:
-  - name: http
-    protocol: HTTP
-    port: 80
-    hostname: "*"
-    allowedRoutes:
-      namespaces:
-        from: All  # Permite rutas desde cualquier namespace# ========================================================
-# 1️⃣ Gateway principal (Kubernetes Gateway API)
-# ========================================================
+# ========================================================       
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: kiali-gateway
   namespace: istio-system
 spec:
-  gatewayClassName: istio  # Usa el GatewayClass manejado por Istio
+  gatewayClassName: istio
   listeners:
   - name: http
-    protocol: HTTP
     port: 80
-    hostname: "*"
-    allowedRoutes:
-      namespaces:
-        from: All  # Permite rutas desde cualquier namespace
+    protocol: HTTP
