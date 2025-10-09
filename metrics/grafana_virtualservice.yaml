@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: grafana-virtualservice
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - default/medisupply-gateway   # usa el gateway que ya tienes
+  http:
+  - match:
+    - uri:
+        prefix: /grafana
+    route:
+    - destination:
+        host: grafana.istio-system.svc.cluster.local
+        port:
+          number: 80
