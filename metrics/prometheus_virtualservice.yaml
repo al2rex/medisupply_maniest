@@ -11,9 +11,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /prometheus
-    rewrite:
-      uri: /
+        prefix: /
     route:
     - destination:
         host: prometheus-server.istio-system.svc.cluster.local
