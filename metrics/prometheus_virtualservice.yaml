@@ -7,11 +7,13 @@ spec:
   hosts:
   - "*"
   gateways:
-  - default/medisupply-gateway   # usa el gateway que ya tienes
+  - default/medisupply-gateway
   http:
   - match:
     - uri:
         prefix: /prometheus
+    rewrite:
+      uri: /
     route:
     - destination:
         host: prometheus-server.istio-system.svc.cluster.local
