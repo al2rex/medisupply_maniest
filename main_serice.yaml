@@ -10,9 +10,7 @@ spec:
   ports:
   - name: http
     port: 80
-    targetPort: 80
-    nodePort: 32080              # <- opcional; si no lo pones Kubernetes asigna uno
+    targetPort: 80            # <- opcional; si no lo pones Kubernetes asigna uno
   - name: status
     port: 15021
     targetPort: 15021
-    nodePort: 30580
