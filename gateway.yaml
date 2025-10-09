@@ -1,14 +1,15 @@
-# ========================================================
-# 1️⃣ Gateway principal (Kubernetes Gateway API)
-# ========================================================       
-apiVersion: gateway.networking.k8s.io/v1
+apiVersion: networking.istio.io/v1
 kind: Gateway
 metadata:
-  name: gateway-general
-  namespace: istio-system
+  name: medisupply-gateway
+  namespace: default
 spec:
-  gatewayClassName: istio
-  listeners:
-  - name: http
-    port: 80
-    protocol: HTTP
+  selector:
+    istio: ingress   # <-- este SÍ existe en tu istio-ingress pod
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
