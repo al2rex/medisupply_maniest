@@ -1,0 +1,19 @@
+# ========================================================
+# 2️⃣ HTTPRoute que dirige tráfico hacia el servicio de Kiali
+# ========================================================
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: kiali-route
+  namespace: istio-system
+spec:
+  parentRefs:
+  - name: gateway-general
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: kiali
+      port: 20001  
