@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: prometheus-virtualservice
+  namespace: istio-system
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - default/medisupply-gateway   # usa el gateway que ya tienes
+  http:
+  - match:
+    - uri:
+        prefix: /prometheus
+    route:
+    - destination:
+        host: prometheus.istio-system.svc.cluster.local
+        port:
+          number: 80
