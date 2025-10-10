@@ -12,6 +12,8 @@ spec:
   - match:
     - uri:
         prefix: /jaeger
+    rewrite:
+        uri: /
     route:
     - destination:
         host: jaeger.istio-system.svc.cluster.local
