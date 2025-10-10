@@ -16,4 +16,4 @@ spec:
     - destination:
         host: grafana.istio-system.svc.cluster.local
         port:
-          number: 80
+          number: 3000
