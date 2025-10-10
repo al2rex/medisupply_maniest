@@ -16,4 +16,4 @@ spec:
     - destination:
         host: jaeger.istio-system.svc.cluster.local
         port:
-          number: 80
+          number: 16686
