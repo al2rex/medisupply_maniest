@@ -11,7 +11,7 @@ spec:
   http:
   - match:
     - uri:
-        prefix: /grafana
+        prefix: /
     route:
     - destination:
         host: grafana.istio-system.svc.cluster.local
