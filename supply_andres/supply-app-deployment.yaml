@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: supply-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: supply-app
+  template:
+    metadata:
+      labels:
+        app: supply-app
+    spec:
+      containers:
+      - name: supply-app
+        image: public.ecr.aws/o4y1s5p9/medisupply:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+        env:
+        - name: spring.application.name
+          value: "IngresoBodega"
+        - name: server.port
+          value: "8081"
+        - name: spring.kafka.bootstrap-servers
+          value: "localhost:9092"
