@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notifications
+  namespace: default
+  labels:
+    app: notifications
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notifications
+  template:
+    metadata:
+      labels:
+        app: notifications
+    spec:
+      containers:
+      - name: notifications
+        image: notifications:latest
+        imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
+        ports:
+        - containerPort: 9020
+      
