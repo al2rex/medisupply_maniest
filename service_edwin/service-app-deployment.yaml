@@ -14,29 +14,17 @@ spec:
         app: supplier-service
     spec:
       containers:
-      - name: supplier-service
-        image: https://hub.docker.com/r/edwinhc93/medisupply-supplier-service
+      - name: supplier-purcharse-service
+        image: edwinhc93/medisupply-supplier-service:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 8081
+        - containerPort: 8080
         env:
-        - name: spring.application.name
-          value: "IngresoBodega"
-        - name: server.port
-          value: "8081"
-        - name: spring.kafka.bootstrap-servers
-          value: "kafka-ingresobodega.bod.svc.cluster.local:9092"
-        - name: spring.kafka.consumer.group-id
-          value: group2
-        - name: kafka.group.all
-          value: group2
-        - name: aws.region
-          value: us-east-2
-        - name: aws.accessKey
-          value: 
-        - name: aws.secretKey
-          value: 
-        - name: kafka.topic.inventario-recibido
-          value: InventarioRecibido
-        - name: kafka.topic.inventario
-          value: InventarioActualizado
+        - name: AWS_REGION
+          value: "us-east-1"
+        - name: PORT
+          value: "8080"
+        - name: DYNAMODB_ENDPOINT
+          value:
+        - name: RABBITMQ_URL
+          value: "amqp://admin:admin123@rabbitmq.supplier-service.svc.cluster.local:5672/"
