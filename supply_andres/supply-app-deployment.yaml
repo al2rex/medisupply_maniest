@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: supply-app
-  namespace: default
+  name: supply-app-ingresobodega
+  namespace: bod
 spec:
   replicas: 1
   selector:
@@ -14,7 +14,7 @@ spec:
         app: supply-app
     spec:
       containers:
-      - name: supply-app
+      - name: ingreso-bodega
         image: public.ecr.aws/o4y1s5p9/medisupply:latest
         imagePullPolicy: IfNotPresent
         ports:
@@ -25,4 +25,18 @@ spec:
         - name: server.port
           value: "8081"
         - name: spring.kafka.bootstrap-servers
-          value: "localhost:9092"
+          value: "kafka-ingresobodega.bod.svc.cluster.local:9092"
+        - name: spring.kafka.consumer.group-id
+          value: group2
+        - name: kafka.group.all
+          value: group2
+        - name: aws.region
+          value: us-east-2
+        - name: aws.accessKey
+          value: 
+        - name: aws.secretKey
+          value: 
+        - name: kafka.topic.inventario-recibido
+          value: InventarioRecibido
+        - name: kafka.topic.inventario
+          value: InventarioActualizado
