@@ -19,8 +19,6 @@ spec:
       - name: move-supply
         image: public.ecr.aws/o4y1s5p9/movimientoinventario:latest
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
-        ports:
-        - containerPort: 9020
         env:
         - name: AWS_REGION
           value: "us-east-2"
