@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: movimiento-inventario-brayan
+  namespace: move-supply
+  labels:
+    app: movimiento-inventario-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movimiento-inventario-app
+  template:
+    metadata:
+      labels:
+        app: movimiento-inventario-app
+    spec:
+      containers:
+      - name: move-supply
+        image: public.ecr.aws/o4y1s5p9/movimientoinventario:latest
+        imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
+        ports:
+        - containerPort: 9020
+        env:
+        - name: AWS_REGION
+          value: "us-east-2"
+        - name: AWS_ACCESS_KEY_ID
+          value: 
+        - name: AWS_SECRET_ACCESS_KEY
+          value: 
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-move.move-supply.svc.cluster.local:9092"
+        - name: KAFKA_GROUP_ID
+          value: grupo-2
