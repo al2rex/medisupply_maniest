@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: supply-app-ingresobodega
-  namespace: bod
+  name: supplier-service-app
+  namespace: supplier-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: supply-app
+      app: supplier-service
   template:
     metadata:
       labels:
-        app: supply-app
+        app: supplier-service
     spec:
       containers:
-      - name: ingreso-bodega
-        image: public.ecr.aws/o4y1s5p9/medisupply:latest
+      - name: supplier-service
+        image: https://hub.docker.com/r/edwinhc93/medisupply-supplier-service
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8081
@@ -32,10 +32,11 @@ spec:
           value: group2
         - name: aws.region
           value: us-east-2
+        - name: aws.accessKey
+          value: 
+        - name: aws.secretKey
+          value: 
         - name: kafka.topic.inventario-recibido
           value: InventarioRecibido
         - name: kafka.topic.inventario
           value: InventarioActualizado
-        envFrom:
-        - secretRef:
-            name: aws-credentials
