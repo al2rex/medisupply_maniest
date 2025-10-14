@@ -13,7 +13,7 @@ spec:
     - uri:
         prefix: /event
     rewrite:
-        uri: /eventos/fallo-cadena-frio
+        uri: /fallo/cadenafrio
     route:
     - destination:
         host: notifications.default.svc.cluster.local
