@@ -22,12 +22,8 @@ spec:
         env:
         - name: AWS_REGION
           value: "us-east-2"
-        - name: AWS_ACCESS_KEY_ID
-          value: 
-        - name: AWS_SECRET_ACCESS_KEY
-          value: 
         - name: KAFKA_BOOTSTRAP_SERVERS
-          value: "kafka-move.move-supply.svc.cluster.local:9092"
+          value: "kafka-supply-broker.kafka-broker.svc.cluster.local:9092"
         - name: KAFKA_GROUP_ID
           value: grupo-2
         envFrom:
