@@ -30,3 +30,6 @@ spec:
           value: "kafka-move.move-supply.svc.cluster.local:9092"
         - name: KAFKA_GROUP_ID
           value: grupo-2
+        envFrom:
+        - secretRef:
+            name: aws-credentials-move
