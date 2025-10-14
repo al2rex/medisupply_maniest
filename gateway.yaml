@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   selector:
-    istio: ingress   # <-- este SÍ existe en tu istio-ingress pod
+    istio: istio-ingress   # <-- este SÍ existe en tu istio-ingress pod
   servers:
   - port:
       number: 80

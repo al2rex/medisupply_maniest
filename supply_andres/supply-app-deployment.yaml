@@ -25,7 +25,7 @@ spec:
         - name: server.port
           value: "8081"
         - name: spring.kafka.bootstrap-servers
-          value: "kafka-ingresobodega.bod.svc.cluster.local:9092"
+          value: "kafka-supply-broker.kafka-broker.svc.cluster.local:9092"
         - name: spring.kafka.consumer.group-id
           value: group2
         - name: kafka.group.all
