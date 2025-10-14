@@ -30,11 +30,11 @@ spec:
             - name: KAFKA_LISTENERS
               value: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
             - name: KAFKA_ADVERTISED_LISTENERS
-              value: "PLAINTEXT://kafka-ingresobodega.bod.svc.cluster.local:9092"
+              value: "PLAINTEXT://notifications-kafka.notifications.svc.cluster.local:9092"
             - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
               value: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
             - name: KAFKA_CONTROLLER_QUORUM_VOTERS
-              value: "1@kafka-ingresobodega.bod.svc.cluster.local:9093"
+              value: "1@notifications-kafka.notifications.svc.cluster.local:9093"
             - name: KAFKA_CONTROLLER_LISTENER_NAMES
               value: "CONTROLLER"
             - name: KAFKA_LOG_DIRS
@@ -71,7 +71,7 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: notifications-kafka-app
+  name: notifications-kafka
   namespace: notifications
 spec:
   type: ClusterIP

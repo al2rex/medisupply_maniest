@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: purchase-service-app
+  namespace: purchase-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: purchase-service
+  template:
+    metadata:
+      labels:
+        app: purchase-service
+    spec:
+      containers:
+      - name: purcharse-service
+        image: edwinhc93/medisupply-supplier-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        env:
+        - name: AWS_REGION
+          value: "us-east-1"
+        - name: PORT
+          value: "8080"
+        - name: DYNAMODB_ENDPOINT
+          value:
+        - name: RABBITMQ_URL
+          value: "amqp://admin:admin123@rabbitmq.purchase-service.svc.cluster.local:5672/"
