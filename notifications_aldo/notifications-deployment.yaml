@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notifications
-  namespace: default
+  namespace: notifications
   labels:
     app: notifications
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: notifications
-        image: notifications:latest
+        image: public.ecr.aws/n7w5a8q2/medisupply-notificacions:latest
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
         ports:
         - containerPort: 9020
