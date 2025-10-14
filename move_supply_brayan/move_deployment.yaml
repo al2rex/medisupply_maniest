@@ -6,7 +6,7 @@ metadata:
   labels:
     app: movimiento-inventario-app
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: movimiento-inventario-app
