@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: move-supply
-        image: public.ecr.aws/n7w5a8q2/movimiento-inventario:latest
+        image: public.ecr.aws/n7w5a8q2/movimiento-inventario:v1
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
         env:
         - name: AWS_REGION
