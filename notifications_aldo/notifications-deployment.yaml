@@ -26,6 +26,8 @@ spec:
           value: "kafka-supply-broker.kafka-broker.svc.cluster.local:9092"
         - name: "spring.kafka.properties.allow.auto.create.topics"
           value: "true"
+        - name: "spring.kafka.consumer.group-id"
+          value: "grupo-2"
         - name: "logging.level.root"
           value: "DEBUG"
         - name: "logging.level.org.springframework.web"
