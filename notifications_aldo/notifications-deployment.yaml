@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: notifications
-        image: public.ecr.aws/n7w5a8q2/notifications:v2
+        image: public.ecr.aws/n7w5a8q2/notifications:v3
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
         ports:
         - containerPort: 9020
