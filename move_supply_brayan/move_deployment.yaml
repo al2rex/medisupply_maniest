@@ -6,7 +6,7 @@ metadata:
   labels:
     app: movimiento-inventario-app
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: movimiento-inventario-app
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: move-supply
-        image: public.ecr.aws/n7w5a8q2/movimiento-inventario:v3
+        image: movimiento-inventario:latest
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
         env:
         - name: AWS_REGION
@@ -29,3 +29,10 @@ spec:
         envFrom:
         - secretRef:
             name: aws-credentials-move
+        resources:
+          requests:
+            cpu: 100m
+            memory: 512Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi

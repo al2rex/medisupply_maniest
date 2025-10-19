@@ -19,6 +19,13 @@ spec:
       - name: notifications
         image: public.ecr.aws/n7w5a8q2/notifications:v3
         imagePullPolicy: IfNotPresent   # 👈 usa tu imagen local de minikube
+        resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
         ports:
         - containerPort: 9020
         env:
