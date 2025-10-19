@@ -7,13 +7,13 @@ spec:
   hosts:
   - "*"
   gateways:
-  - default/medisupply-gateway   # 👈 ahora todos comparten el mismo gateway
+  - medisupply-gateway   # 👈 ahora todos comparten el mismo gateway
   http:
   - match:
     - uri:
         prefix: /event
     rewrite:
-        uri: /fallo/cadenafrio
+        uri: /events/fallo/cadenafrio
     route:
     - destination:
         host: notifications.default.svc.cluster.local

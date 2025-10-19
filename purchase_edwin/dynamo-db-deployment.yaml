@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamo-bd
+  namespace: dynamo-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamo-service
+  template:
+    metadata:
+      labels:
+        app: dynamo-service
+    spec:
+      containers:
+      - name: dynamo-service
+        image: amazon/dynamodb-local:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000   # DynamoDB Local escucha en el puerto 8000 por defecto
+        args: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "/data"]
+        volumeMounts:
+        - name: dynamo-data
+          mountPath: /data
+      volumes:
+      - name: dynamo-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dynamo-db
+  namespace: dynamo-service
+spec:
+  selector:
+    app: dynamo-service
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+

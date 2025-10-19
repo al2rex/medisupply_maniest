@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ingreso-bodega
-        image: public.ecr.aws/o4y1s5p9/medisupply:latest
+        image: public.ecr.aws/n7w5a8q2/movimiento-inventario:v3
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8081
