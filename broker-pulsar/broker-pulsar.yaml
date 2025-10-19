@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: broker-pulsar
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pulsar-broker
+  namespace: broker-pulsar
+spec:
+  serviceName: pulsar-broker
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pulsar-broker
+  template:
+    metadata:
+      labels:
+        app: pulsar-broker
+    spec:
+      containers:
+        - name: pulsar-broker
+          image: apachepulsar/pulsar:latest
+          ports:
+            - containerPort: 6650
+              name: pulsar
+            - containerPort: 8080
+              name: http
+          env:
+            - name: PULSAR_MEM
+              value: "-Xms512m -Xmx512m"
+          command: ["/bin/bash", "-c"]
+          args:
+            - >
+              bin/pulsar standalone
+              --no-functions-worker;
+          volumeMounts:
+            - name: data
+              mountPath: /pulsar/data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pulsar-broker
+  namespace: broker-pulsar
+spec:
+  type: ClusterIP
+  ports:
+    - name: pulsar
+      port: 6650
+      targetPort: 6650
+    - name: http
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: pulsar-broker
