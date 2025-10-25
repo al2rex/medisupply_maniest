@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: proveedor
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: proveedor
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - name: proveedor
+        image: proveedor:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: PulsarSettings__BrokerUrl
+          value: "pulsar-service.broker-pulsar.svc.cluster.local:6650"
+        - name: PulsarSettings__Topics__PRODUCER
+          value: "SolicitudProveedor"
+        - name: PulsarSettings__Topics__CONSUMER
+          value: "InventarioRecibido"
+        - name: PulsarSettings__SubscriptionName
+          value: "inventario-sub"
