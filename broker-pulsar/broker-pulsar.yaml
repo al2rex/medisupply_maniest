@@ -19,6 +19,8 @@ spec:
     metadata:
       labels:
         app: pulsar-broker
+        version: v1
+        istio.io/dataplane-mode: ambient
     spec:
       containers:
         - name: pulsar-broker
