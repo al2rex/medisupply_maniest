@@ -19,6 +19,8 @@ spec:
     metadata:
       labels:
         app: pulsar-broker
+        version: v1
+        istio.io/dataplane-mode: ambient
     spec:
       containers:
         - name: pulsar-broker
@@ -31,6 +33,8 @@ spec:
           env:
             - name: PULSAR_MEM
               value: "-Xms512m -Xmx512m"
+            - name: PULSAR_ADVERTISED_ADDRESS
+              value: "pulsar-service.broker-pulsar.svc.cluster.local"
           command: ["/bin/bash", "-c"]
           args:
             - >

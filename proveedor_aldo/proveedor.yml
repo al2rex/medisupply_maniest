@@ -19,17 +19,20 @@ spec:
     metadata:
       labels:
         app: backend
+        version: v1
+        istio.io/dataplane-mode: ambient
     spec:
       containers:
       - name: proveedor
-        image: proveedor:latest
+        image: proveedor:v2
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: PulsarSettings__BrokerUrl
-          value: "pulsar-service.broker-pulsar.svc.cluster.local:6650"
+          value: "pulsar://pulsar-service.broker-pulsar.svc.cluster.local:6650"
         - name: PulsarSettings__Topics__PRODUCER
-          value: "SolicitudProveedor"
+          value: "persistent://public/default/SolicitudProveedor"
         - name: PulsarSettings__Topics__CONSUMER
           value: "InventarioRecibido"
         - name: PulsarSettings__SubscriptionName
