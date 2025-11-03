@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camel-connector
+  namespace: eventmesh-connectors     # puedes cambiar el namespace
+  labels:
+    app: camel-connector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camel-connector
+  template:
+    metadata:
+      labels:
+        app: camel-connector
+    spec:
+      containers:
+        - name: camel-connector
+          image: event-conector:v16   # <--- tu imagen Docker
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080     # puerto HTTP para recibir /receiveMessage
+          env:
+            - name: "kafka.bootstrap-servers"
+              value: "kafka-supply-broker.kafka-broker.svc.cluster.local:9092"
+            - name: "kafka.topic"
+              value: "StockBajo"
+            - name: "eventmesh.url"
+              value: "http://runtime-cluster-service.default.svc.cluster.local:10105"
+            - name: "eventmesh.url.suscriptionlocal"
+              value: "http://runtime-cluster-service.default.svc.cluster.local:10105/eventmesh/subscribe/local"
+            - name: "eventmesh.subject"
+              value: "StockBajo"
+            - name: "pulsar.service-url"
+              value: "pulsar://pulsar-service.broker-pulsar.svc.cluster.local:6650"
+            - name: "pulsar.topic"
+              value: "SolicitudProveedor"
+            - name: "server.port"
+              value: "8080"
+            - name: "camel.component.servlet.mapping.context-path"
+              value: "/*"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: camel-connector-svc
+  namespace: eventmesh-connectors
+spec:
+  type: ClusterIP
+  selector:
+    app: camel-connector
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
