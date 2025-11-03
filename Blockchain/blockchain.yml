@@ -1,0 +1,144 @@
+# =======================================================
+# Namespace: blockchain
+# =======================================================
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: blockchain
+---
+# =======================================================
+# ConfigMap: blockchain-config
+# =======================================================
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blockchain-config
+  namespace: blockchain
+data:
+  IPFS_HOST: "ipfs"
+  AWS_REGION: "us-east-2"
+  IPFS_PORT: "5001"
+  IPFS_GATEWAY_PORT: "8081"
+  SERVER_PORT: "8080"
+  GIN_MODE: "debug"
+  RATE_LIMIT_REQUESTS: "100"
+  RATE_LIMIT_WINDOW: "60"
+  USE_AWS_SECRETS: "false"
+  BLOCKCHAIN_PRIVATE_KEY_SECRET: ""
+  DYNAMODB_TABLE_NAME: "blockcahin_medysupyly"
+  BLOCKCHAIN_NETWORK: "sepolia"
+---
+# =======================================================
+# IPFS Deployment + Service
+# =======================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipfs
+  namespace: blockchain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipfs
+  template:
+    metadata:
+      labels:
+        app: ipfs
+    spec:
+      containers:
+        - name: ipfs
+          image: ipfs/kubo:latest
+          ports:
+            - containerPort: 4001
+            - containerPort: 5001
+            - containerPort: 8080
+          env:
+            - name: IPFS_PROFILE
+              value: "server"
+          volumeMounts:
+            - name: ipfs-data
+              mountPath: /data/ipfs
+            - name: ipfs-staging
+              mountPath: /export
+      volumes:
+        - name: ipfs-data
+          emptyDir: {}
+        - name: ipfs-staging
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipfs
+  namespace: blockchain
+spec:
+  selector:
+    app: ipfs
+  ports:
+    - name: p2p
+      port: 4001
+      targetPort: 4001
+    - name: api
+      port: 5001
+      targetPort: 5001
+    - name: gateway
+      port: 8081
+      targetPort: 8080
+  type: ClusterIP
+---
+# =======================================================
+# transaccion-blockchain Deployment + Service
+# =======================================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaccion-blockchain
+  namespace: blockchain
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transaccion-blockchain
+  template:
+    metadata:
+      labels:
+        app: transaccion-blockchain
+    spec:
+      containers:
+        - name: transaccion-blockchain
+          image: blockchain-medisupply-transaccion-blockchain:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: blockchain-config
+            - secretRef:
+                name: blockchain-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 60
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaccion-blockchain
+  namespace: blockchain
+spec:
+  selector:
+    app: transaccion-blockchain
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: NodePort
